@@ -109,7 +109,6 @@ class APIAirPollution:
             print(forecast_response.text)
             return None
 
-
 # if __name__ == "__main__":
 #     gdynia_api = APIAirPollution("Gdynia")
 #     # gdynia_api.get_pollution()
