@@ -9,6 +9,7 @@ from utils import URLs
 
 
 class APIAirPollution:
+
     def __init__(self) -> None:
         """
         Initialize the APIAirPollution object with a persistent HTTP session
