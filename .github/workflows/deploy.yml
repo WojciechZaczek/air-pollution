@@ -49,7 +49,7 @@ jobs:
       - name: Deploy to Google Cloud Functions
         run:
           gcloud functions deploy air-pollution_data \
-          --gen2
+          --gen2 \
           --runtime python311 \
           --trigger-http \
           --entry-point fetch_openweather_data \
