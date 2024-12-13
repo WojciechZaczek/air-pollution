@@ -1,0 +1,56 @@
+name: air-pollution CI Workflow
+
+on:
+  push:
+    branches:
+    - master
+
+
+jobs:
+  test:
+    run-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run:
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Tests
+        run: pytest
+
+
+  deploy:
+    run-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: 'latest'
+          project_id: ${{ secrets.GOOGLE_APP_ID }}
+          service_account_key: ${{ secrets.GOOGLE_APP_CREDENTIALS }}
+
+      - name: Authenticate with service account
+        run:
+          echo '$ ${{ secrets.GOOGLE_APP_CREDENTIALS }}' | jq '.' > $HOME/gcloud-key.json
+          gcloud auth activate-service-account --key-file=$HOME/gcloud-key.json
+
+      - name: Set Project ID
+        run: gcloud config set project ${{ secrets.GOOGLE_APP_ID }}
+
+      - name: Deploy to Google Cloud Functions
+        run:
+          gcloud functions deploy air-pollution_data \
+          --runtime python311 \
+          --trigger-http \
+          --entry-point fetch_openweather_data\
+          --region europe-central2
+          --source ./gcloud
