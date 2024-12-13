@@ -3,7 +3,7 @@ name: air-pollution CI Workflow
 on:
   push:
     branches:
-    - master
+    - github_actions
 
 
 jobs:
@@ -51,6 +51,6 @@ jobs:
           gcloud functions deploy air-pollution_data \
           --runtime python311 \
           --trigger-http \
-          --entry-point fetch_openweather_data\
-          --region europe-central2
+          --entry-point fetch_openweather_data \
+          --region europe-central2 \
           --source ./gcloud
