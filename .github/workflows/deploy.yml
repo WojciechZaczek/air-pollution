@@ -40,7 +40,7 @@ jobs:
 
       - name: Authenticate with service account
         run:
-          echo '${{ secrets.GOOGLE_APP_CREDENTIALS }}' | jq '.' > $HOME/gcloud-key.json
+          echo "${{ secrets.GOOGLE_APP_CREDENTIALS }}" > $HOME/gcloud-key.json
           gcloud auth activate-service-account --key-file=$HOME/gcloud-key.json
 
       - name: Set Project ID
