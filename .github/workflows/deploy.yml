@@ -36,7 +36,6 @@ jobs:
         with:
           version: 'latest'
           project_id: ${{ secrets.GOOGLE_APP_ID }}
-          service_account_key: ${{ secrets.GOOGLE_APP_CREDENTIALS }}
 
       - name: Authenticate with service account
         run: |
