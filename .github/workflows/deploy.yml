@@ -45,7 +45,7 @@ jobs:
           gcloud auth activate-service-account --key-file=$HOME/gcloud-key.json
 
       - name: Set Project ID
-        run: gcloud config set project ${{ secrets.GOOGLE_APP_ID }}
+        run: gcloud config set project ${{ vars.GOOGLE_APP_ID }}
 
       - name: Deploy to Google Cloud Functions
         run: |
