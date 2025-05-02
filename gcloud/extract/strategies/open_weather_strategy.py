@@ -9,7 +9,6 @@ from abstract_strategy import ExtractStrategy
 import requests
 from typing import Optional, Dict, Any
 from requests.exceptions import RequestException
-from weather_API_key import API_key
 from gcloud.utils import URLs
 from gcloud.utils.static import string_data_to_timestamp_unix, load_config
 # from dotenv import load_dotenv

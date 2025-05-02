@@ -4,8 +4,10 @@ import requests
 from typing import Optional, Dict, Any
 from requests.exceptions import RequestException
 import yaml
-from weather_API_key import API_key
+import os
 from utils import URLs
+
+API_key = os.getenv('OPENWEATHER_API_KEY')
 
 
 class APIAirPollution:
