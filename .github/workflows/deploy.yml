@@ -49,10 +49,11 @@ jobs:
 
       - name: Deploy to Google Cloud Functions
         run: |
-          gcloud functions deploy air-pollution_data \
+          gcloud functions deploy air_pollution_data \
           --gen2 \
           --runtime python311 \
           --trigger-http \
           --entry-point fetch_openweather_data \
           --region europe-central2 \
           --source ./gcloud
+          --service-account=example-service-account@corded-shadow-429909-b2.iam.gserviceaccount.com
