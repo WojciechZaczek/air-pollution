@@ -2,14 +2,14 @@ from datetime import timezone, datetime
 import yaml
 
 
-def load_config(config_path) -> list:
+def load_config() -> list:
     """
     Load city names from a YAML configuration file.
 
     :param config_path: Full path to the YAML configuration file.
     :return: List of city names.
     """
-    with open(config_path, "r") as file:
+    with open("config\\cities_config.yaml", "r") as file:
         config = yaml.safe_load(file)
     if "cities" not in config or not isinstance(config["cities"], list):
         raise ValueError("The YAML configuration file must contain a 'cities' key with a list of cities.")

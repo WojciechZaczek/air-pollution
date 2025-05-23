@@ -29,8 +29,7 @@ class OpenweatherDataExtractor(ExtractStrategy):
         and city configuration loaded from a YAML file.
         """
         # self.config_path =  Path(__file__).resolve().parent.parent / "utils" / "config" / "cities_config.yaml"
-        self.config_path =  "utils\\config\\cities_config.yaml"
-        self.cities = load_config(self.config_path)
+        self.cities = load_config()
         self.session = requests.Session()
         self.API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
