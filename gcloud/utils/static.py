@@ -9,7 +9,7 @@ def load_config() -> list:
     :param config_path: Full path to the YAML configuration file.
     :return: List of city names.
     """
-    with open("config\\cities_config.yaml", "r") as file:
+    with open("config/cities_config.yaml", "r") as file:
         config = yaml.safe_load(file)
     if "cities" not in config or not isinstance(config["cities"], list):
         raise ValueError("The YAML configuration file must contain a 'cities' key with a list of cities.")
