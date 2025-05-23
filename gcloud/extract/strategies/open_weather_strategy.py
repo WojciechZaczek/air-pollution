@@ -11,7 +11,7 @@ from typing import Optional, Dict, Any
 from requests.exceptions import RequestException
 from utils import URLs
 from utils.static import string_data_to_timestamp_unix, load_config
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 #
 # dotenv_path = Path('../../../.env')
 # load_dotenv(dotenv_path)
