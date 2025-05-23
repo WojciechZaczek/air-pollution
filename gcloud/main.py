@@ -12,6 +12,7 @@ from extract.strategies.open_weather_strategy import OpenweatherDataExtractor
 
 @functions_framework.http
 def fetch_openweather_data(request, context=None):
+    print()
     openweather_strategy = OpenweatherDataExtractor()
     extract_object = Extract(
         strategy=openweather_strategy

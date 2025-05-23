@@ -9,8 +9,9 @@ def load_config() -> list:
     :param config_path: Full path to the YAML configuration file.
     :return: List of city names.
     """
-    cities_yaml = os.path.join(os.path.dirname(__file__), 'configs/cities_config.yaml')
-    with open(cities_yaml, "r") as file:
+    config_path = os.getcwd().strip("utils") + "config\\cities_config.yaml"
+    config_path = config_path.replace('\\', '/')
+    with open(config_path, "r") as file:
         config = yaml.safe_load(file)
     if "cities" not in config or not isinstance(config["cities"], list):
         raise ValueError("The YAML configuration file must contain a 'cities' key with a list of cities.")
