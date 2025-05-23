@@ -9,12 +9,13 @@ from abstract_strategy import ExtractStrategy
 import requests
 from typing import Optional, Dict, Any
 from requests.exceptions import RequestException
-from gcloud.utils import URLs
-from gcloud.utils.static import string_data_to_timestamp_unix, load_config
-# from dotenv import load_dotenv
+from utils import URLs
+from utils.static import string_data_to_timestamp_unix, load_config
+from dotenv import load_dotenv
 #
 # dotenv_path = Path('../../../.env')
 # load_dotenv(dotenv_path)
+
 
 
 class OpenweatherDataExtractor(ExtractStrategy):
@@ -31,6 +32,7 @@ class OpenweatherDataExtractor(ExtractStrategy):
         self.config_path =  "utils\\config\\cities_config.yaml"
         self.cities = load_config(self.config_path)
         self.session = requests.Session()
+        self.API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
     def get_pollution(self, city: dict) -> Optional[Dict[str, Any]]:
         """
@@ -42,7 +44,7 @@ class OpenweatherDataExtractor(ExtractStrategy):
         lat, lon = city['lat'], city['lon']
 
         try:
-            response = self.session.get(f'{URLs.AIR_POLLUTION_URL}lat={lat}&lon={lon}&appid={API_key}')
+            response = self.session.get(f'{URLs.AIR_POLLUTION_URL}lat={lat}&lon={lon}&appid={self.API_KEY}')
             response.raise_for_status()
             return response.json()
         except RequestException as error:
@@ -64,7 +66,7 @@ class OpenweatherDataExtractor(ExtractStrategy):
 
         try:
             response = self.session.get(
-                f'{URLs.AIR_POLLUTION_HISTORY_URL}lat={lat}&lon={lon}&start={start_data_unix}&end={end_data_unix}&appid={API_key}')
+                f'{URLs.AIR_POLLUTION_HISTORY_URL}lat={lat}&lon={lon}&start={start_data_unix}&end={end_data_unix}&appid={self.API_KEY}')
             response.raise_for_status()
             return response.json()
         except RequestException as error:
@@ -79,7 +81,7 @@ class OpenweatherDataExtractor(ExtractStrategy):
         :return: Dictionary containing current weather data or None if an error occurs.
         """
         try:
-            response = self.session.get(f'{URLs.WEATHER_CURRENT_URL}q={city_name}&appid={API_key}&units=metric')
+            response = self.session.get(f'{URLs.WEATHER_CURRENT_URL}q={city_name}&appid={self.API_KEY}&units=metric')
             response.raise_for_status()
             return response.json()
         except RequestException as error:
@@ -96,7 +98,7 @@ class OpenweatherDataExtractor(ExtractStrategy):
         lat, lon = city['lat'], city['lon']
         try:
             response = self.session.get(
-                f'{URLs.WEATHER_DAILY_FORECAST_URL}lat={lat}&lon={lon}&cnt=1&appid={API_key}&units=metric')
+                f'{URLs.WEATHER_DAILY_FORECAST_URL}lat={lat}&lon={lon}&cnt=1&appid={self.API_KEY}&units=metric')
             response.raise_for_status()
             return response.json()
         except RequestException as error:
