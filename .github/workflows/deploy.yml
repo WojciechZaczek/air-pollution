@@ -55,6 +55,6 @@ jobs:
           --trigger-http \
           --entry-point fetch_openweather_data \
           --region europe-central2 \
-          --source ./gcloud
-          --set-env-vars OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY }}
+          --source ./gcloud \
+          --set-env-vars OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY }} \
           --service-account=example-service-account@corded-shadow-429909-b2.iam.gserviceaccount.com
