@@ -9,9 +9,10 @@ def load_config() -> list:
     :param config_path: Full path to the YAML configuration file.
     :return: List of city names.
     """
-    # config_path = os.getcwd().strip("utils") + "config\\cities_config.yaml"
+    config_path = os.getcwd().strip("utils") + "config\\cities_config.yaml"
+    config_path = os.getcwd().strip("utils") + "\\utils\\config\\cities_config.yaml"
     # config_path = config_path.replace('\\', '/')
-    config_path = "./utils/config/cities_config.yaml"
+    # config_path = "./utils/config/cities_config.yaml"
     with open(config_path, "r") as file:
         config = yaml.safe_load(file)
     if "cities" not in config or not isinstance(config["cities"], list):
@@ -27,3 +28,8 @@ def string_data_to_timestamp_unix(data: str):
     :return: Corresponding Unix timestamp as an integer.
     """
     return int(datetime.strptime(data, "%d/%m/%Y").replace(tzinfo=timezone.utc).timestamp())
+
+
+# config_path = os.getcwd().strip("utils") + "\\utils\\config\\cities_config.yaml"
+# config_path = config_path.replace('\\', '/')
+# print(config_path)

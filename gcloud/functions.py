@@ -17,9 +17,9 @@ class APIAirPollution:
         Initialize the APIAirPollution object with a persistent HTTP session
         and city configuration loaded from a YAML file.
         """
-        # config_path = Path(__file__).resolve().parent.parent / "utils" / "config" / "cities_config.yaml"
-        config_path = "./utils/config/cities_config.yaml"
-        self.cities = self.load_config()
+        config_path = Path(__file__).resolve().parent.parent / "utils" / "config" / "cities_config.yaml"
+        # config_path = "./utils/config/cities_config.yaml"
+        self.cities = self.load_config(config_path)
 
         self.session = requests.Session()
 
