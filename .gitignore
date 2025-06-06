@@ -1,2 +1,5 @@
 /weather_API_key.py
 /.env
+
+__pycache__/
+*.py[cod]
