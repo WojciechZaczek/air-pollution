@@ -22,7 +22,7 @@ def fetch_openweather_data(request, context=None):
     data = data.encode("utf-8")
     publisher = pubsub_v1.PublisherClient()
     project_id = "corded-shadow-429909-b2"
-    topic_id = "airpolution-topic"
+    topic_id = "airpollution-topic"
     topic_path = publisher.topic_path(project_id, topic_id)
     future = publisher.publish(topic_path, data)
     print(f"Published message ID: {future.result()}")

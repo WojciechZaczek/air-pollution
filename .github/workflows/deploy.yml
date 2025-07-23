@@ -64,7 +64,7 @@ jobs:
           gcloud functions deploy load_air_pollution_data \
            --gen2 \
            --runtime python311 \
-           --trigger-topic airpolution-topic \
+           --trigger-topic airpollution-topic \
            --entry-point example_function \
            --region europe-central2 \
            --source ./gcloud \
