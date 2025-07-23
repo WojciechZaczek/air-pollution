@@ -2,3 +2,4 @@ functions-framework>=3.8.0
 requests==2.32.3
 pandas>=2.2.0
 pyaml>=25.1.0
+google-cloud-pubsub>=2.31.0
