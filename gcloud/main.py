@@ -28,12 +28,13 @@ def fetch_openweather_data(request, context=None):
     print(f"Published message ID: {future.result()}")
 
     # return str(extract_object.retrieve_data())
-
+    return "True", 200
 
 # https://cloud.google.com/functions/docs/deploy
 @functions_framework.cloud_event
 def example_function(request, context=None):
     print("Hello")
+    return "True", 200
 
 
 '''

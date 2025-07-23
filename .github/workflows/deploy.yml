@@ -64,9 +64,8 @@ jobs:
           gcloud functions deploy load_air_pollution_data \
            --gen2 \
            --runtime python311 \
-           --trigger-topic airpolution-topic
-           --entry-point example_function
+           --trigger-topic airpolution-topic \
+           --entry-point example_function \
            --region europe-central2 \
            --source ./gcloud \
-           --set-env-vars OPENWEATHER_API_KEY=${{ secrets.OPENWEATHER_API_KEY }} \
            --service-account=example-service-account@corded-shadow-429909-b2.iam.gserviceaccount.com
