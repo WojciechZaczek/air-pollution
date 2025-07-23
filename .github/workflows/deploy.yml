@@ -49,7 +49,7 @@ jobs:
 
       - name: Deploy to Google Cloud Functions
         run: |
-         gcloud functions deploy air_pollution_data \
+         gcloud functions deploy extract_air_pollution_data \
           --gen2 \
           --runtime python311 \
           --trigger-http \
@@ -61,7 +61,7 @@ jobs:
 
       - name: Deploy to Google Cloud Functions
         run: |
-          gcloud functions deploy air_pollution_data \
+          gcloud functions deploy load_air_pollution_data \
            --gen2 \
            --runtime python311 \
            --trigger-topic airpolution-topic
