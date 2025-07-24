@@ -1,3 +1,5 @@
+import json
+
 import functions_framework
 import sys
 import os
@@ -19,12 +21,13 @@ def fetch_openweather_data(request, context=None):
         strategy=openweather_strategy
     )
     data = extract_object.retrieve_data()
-    data = data.encode("utf-8")
+    data_str = json.dumps(data)
+    data_bytes = data_str.encode("utf-8") #error - str
     publisher = pubsub_v1.PublisherClient()
     project_id = "corded-shadow-429909-b2"
     topic_id = "airpollution-topic"
     topic_path = publisher.topic_path(project_id, topic_id)
-    future = publisher.publish(topic_path, data)
+    future = publisher.publish(topic_path, data_bytes)
     print(f"Published message ID: {future.result()}")
 
     # return str(extract_object.retrieve_data())
@@ -33,6 +36,9 @@ def fetch_openweather_data(request, context=None):
 # https://cloud.google.com/functions/docs/deploy
 @functions_framework.cloud_event
 def example_function(request, context=None):
+    """
+    request -> data -> reformat data -> use bigquery client -> insert data to bigquery
+    """
     print("Hello")
     return "True", 200
 
