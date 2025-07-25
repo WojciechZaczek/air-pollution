@@ -1,9 +1,13 @@
 import json
+import base64
+from datetime import datetime
 
 import functions_framework
 import sys
 import os
-from google.cloud import pubsub_v1
+
+from google.auth import message
+from google.cloud import pubsub_v1, bigquery
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))  # add gcloud_functions to system paths
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) # add root folder to system paths
@@ -34,14 +38,57 @@ def fetch_openweather_data(request, context=None):
     # return str(extract_object.retrieve_data())
     return "True", 200
 
-# https://cloud.google.com/functions/docs/deploy
+
+
 @functions_framework.cloud_event
-def example_function(request, context=None):
-    """
-    request -> data -> reformat data -> use bigquery client -> insert data to bigquery
-    """
-    print("Hello")
+def example_function(cloud_event):
+    message = cloud_event.data["message"]['data']
+    decoded_message = base64.b64decode(message).decode('utf-8')
+    raw_data = json.loads(decoded_message)
+    row_to_insert = []
+    for city, data in raw_data.items():
+        try:
+            weather = data["current_weather"]
+            pollution = data["pollution"]["list"][0]["components"]
+            pollution_main = data["pollution"]["list"][0]["main"]
+            record = {
+                "city": city,
+                "timestamp": datetime.fromtimestamp(weather["dt"]).isoformat() + "Z",
+                "temp": weather["main"]["temp"],
+                "humidity": weather["main"]["humidity"],
+                "pressure": weather["main"]["pressure"],
+                "wind_speed": weather["wind"]["speed"],
+                "aqi": pollution_main["aqi"],
+                "pm10": pollution["pm10"],
+                "pm2_5": pollution["pm2_5"],
+                "no2": pollution["no2"],
+                "co": pollution["co"],
+                "lat": data["coordinates"]["lat"],
+                "lon": data["coordinates"]["lon"]
+            }
+            row_to_insert.append(record)
+        except Exception as e:
+            print(f"Error processing data for {city}: {e}")
+            continue
+
+
+    client = bigquery.Client()
+    table_id = "corded-shadow-429909-b2.air_pollution_data.weather_pollution_data"
+    errors = client.insert_rows_json(table_id, row_to_insert)
+
+
+    if errors:
+        return "False", 500
+
+    print(row_to_insert)
+    print("Data inserted successfully")
     return "True", 200
+
+
+"""
+request -> data -> reformat data -> use bigquery client -> insert data to bigquery
+"""
+
 
 
 '''
@@ -61,30 +108,4 @@ def example_function(request, context=None):
 '''
 
 
-
-'''
-from google.cloud import pubsub_v1
-from google.oauth2 import service_account
-
-# Ścieżka do pliku klucza konta usługowego
-key_path = "key/pubsub-demo-438714-f39390e5cf71.json"
-
-# Ustawienia klienta pubsub z uwierzytelnianiem
-credentials = service_account.Credentials.from_service_account_file(key_path)
-publisher = pubsub_v1.PublisherClient(credentials=credentials)
-
-# Ustawienia projektu i tematu
-project_id = "pubsub-demo-438714"
-topic_id = "pubsub-topic-demo"
-topic_path = publisher.topic_path(project_id, topic_id)
-
-def publish_message():
-    data = "Hello, world!"
-    data = data.encode("utf-8")
-    future = publisher.publish(topic_path, data)
-    print(f"Published message ID: {future.result()}")
-
-if __name__ == "__main__":
-    publish_message
-'''
 
