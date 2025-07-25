@@ -21,6 +21,7 @@ def fetch_openweather_data(request, context=None):
         strategy=openweather_strategy
     )
     data = extract_object.retrieve_data()
+    print(json.dumps(data, indent=2))
     data_str = json.dumps(data)
     data_bytes = data_str.encode("utf-8") #error - str
     publisher = pubsub_v1.PublisherClient()
