@@ -3,3 +3,5 @@ requests==2.32.3
 pandas>=2.2.0
 pyaml>=25.1.0
 google-cloud-pubsub>=2.31.0
+google-cloud-bigquery>=3.35.1
+google-cloud-bigquery[pandas]

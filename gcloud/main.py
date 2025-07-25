@@ -6,7 +6,6 @@ import functions_framework
 import sys
 import os
 
-from google.auth import message
 from google.cloud import pubsub_v1, bigquery
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))  # add gcloud_functions to system paths
