@@ -72,7 +72,7 @@ def example_function(cloud_event):
 
 
     client = bigquery.Client()
-    table_id = "corded-shadow-429909-b2.air_pollution_data.weather_pollution_data"
+    table_id = "corded-shadow-429909-b2.air_pollution_data.weather_pollution"
     errors = client.insert_rows_json(table_id, row_to_insert)
 
 
